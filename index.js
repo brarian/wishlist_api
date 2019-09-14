@@ -14,6 +14,7 @@ app.get('/', (req, res) => {
 app.get('/items', db.getItems);
 app.get('/items/:id', db.getItemsById);
 app.post('/items/:id', db.insertItemInWishlist);
+app.get('/:id', db.getUser);
 app.listen(3000, () => {
   console.log('listening on 3000');
 });

@@ -31,7 +31,8 @@ const getItemsById = (req, res) => {
       if (error) {
         res.send(error);
       }
-      res.json(results.rows);
+      const variables = results.rows;
+      res.send(variables);
     }
   );
 };
@@ -55,8 +56,28 @@ const insertItemInWishlist = (req, res) => {
   );
 };
 
+const getUser = (req, res) => {
+  const { id } = req.params;
+  pool.query(
+    `SELECT wishlist_item.item_name, wishlist_item.image, wishlist_item.url_to_item, 
+	wishlist_item.price, wishlist_item.saved, wishlist_item.id, users.id, users.name, users.username
+	from wishlist_item 
+	INNER JOIN users on wishlist_item.id = users.id WHERE users.id = ${3}`,
+    (error, results) => {
+      if (error) {
+        console.log(error);
+        res.send(error);
+      } else {
+        console.log(results.rows);
+        res.json(results);
+      }
+    }
+  );
+};
+
 module.exports = {
   getItems,
   getItemsById,
-  insertItemInWishlist
+  insertItemInWishlist,
+  getUser
 };
