@@ -2,10 +2,9 @@ const pg = require('pg');
 
 const config = {
   user: 'greedymock',
-  database: 'mockusers_wishlist',
+  database: 'mock_wishlist',
   password: 'greedy1mock',
-  port: 5432,
-  max: 10
+  port: 5432
 };
 
 const pool = new pg.Pool(config);
@@ -14,7 +13,7 @@ console.log(pool);
 pool.on('connect', () => {
   console.log('connected to the database');
 });
-
+create table wishlist_item ( item_name VARCHAR(1000), image VARCHAR(1000), url_to_item VARCHAR(1000), price INT, saved INT );
 const createUsersTable = () => {
   const usersTable = `CREATE TABLE IF NOT EXISTS
     users (
