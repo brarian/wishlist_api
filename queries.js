@@ -39,7 +39,6 @@ const getItemsById = (req, res) => {
 
 const insertItemInWishlist = (req, res) => {
   const { item_name, image, url_to_item, price, id } = req.body;
-  // let selectAll = `SELECT * FROM wishlist_item where id= ${id}`;
   pool.query(
     `insert into wishlist_item (item_name, image, url_to_item, price, id) values 
       ($1, $2, $3, $4, $5)`,
@@ -57,19 +56,19 @@ const insertItemInWishlist = (req, res) => {
 };
 
 const getUser = (req, res) => {
-  const { id } = req.params;
+  const { userid } = req.params;
   pool.query(
-    `SELECT wishlist_item.item_name, wishlist_item.image, wishlist_item.url_to_item, 
-	wishlist_item.price, wishlist_item.saved, wishlist_item.id, users.id, users.name, users.username
-	from wishlist_item 
-	INNER JOIN users on wishlist_item.id = users.id WHERE users.id = ${3}`,
+    `SELECT name, username, email, exp_income FROM users WHERE id = ${userid}`,
+    //   `SELECT wishlist_item.item_name, wishlist_item.image, wishlist_item.url_to_item,
+    // wishlist_item.price, wishlist_item.saved, wishlist_item.id, users.id, users.name, users.username
+    // from wishlist_item
+    // INNER JOIN users on wishlist_item.id = users.id WHERE users.id = ${userid}`,
     (error, results) => {
       if (error) {
         console.log(error);
         res.send(error);
       } else {
-        console.log(results.rows);
-        res.json(results);
+        res.json(results.rows);
       }
     }
   );
