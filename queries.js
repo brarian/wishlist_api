@@ -24,15 +24,15 @@ const getItems = (req, res) => {
 };
 
 const getItemsById = (req, res) => {
-  let { id } = req.params;
+  let { userid } = req.params;
   pool.query(
-    `SELECT * FROM wishlist_item where id= ${id}`,
+    `SELECT * FROM wishlist_item where id= ${userid}`,
     (error, results) => {
       if (error) {
         res.send(error);
       }
-      const variables = results.rows;
-      res.send(variables);
+      console.log(results);
+      res.send(results.rows);
     }
   );
 };
@@ -74,9 +74,25 @@ const getUser = (req, res) => {
   );
 };
 
+const deleteItem = (req, res) => {
+  const { user, price } = req.params;
+  console.log(user, price);
+  pool.query(
+    `DELETE FROM wishlist_item WHERE price = ${price} AND id =${user}`,
+    (error, results) => {
+      if (error) {
+        console.log(error);
+        res.send(error);
+      } else {
+        res.redirect(`/${user}`);
+      }
+    }
+  );
+};
 module.exports = {
   getItems,
   getItemsById,
   insertItemInWishlist,
-  getUser
+  getUser,
+  deleteItem
 };

@@ -12,10 +12,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/items', db.getItems);
-app.get('/items/:/:id', db.getItemsById);
 app.post('/items/:id', db.insertItemInWishlist);
 app.get('/:userid', db.getUser);
-app.delete('/:user/:id');
+app.get('/:userid/allItems', db.getItemsById);
+app.delete('/:user/:price', db.deleteItem);
+
 app.listen(3000, () => {
   console.log('listening on 3000');
 });
