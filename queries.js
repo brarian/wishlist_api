@@ -84,7 +84,7 @@ const deleteItem = (req, res) => {
         console.log(error);
         res.send(error);
       } else {
-        res.redirect(`/${user}`);
+        res.redirect(`/${user}/allItems`);
       }
     }
   );
