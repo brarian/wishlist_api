@@ -11,7 +11,9 @@ app.get('/', (req, res) => {
   res.send('home');
 });
 app.get('/register');
-app.post('/register');
+app.post('/register', userController.createNewUser);
+app.get('/signin');
+app.post('/signin', userController.signIn);
 app.get('/items', db.getItems);
 app.post('/items/:id', db.insertItemInWishlist);
 app.get('/:userid', db.getUser);

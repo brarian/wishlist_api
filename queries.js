@@ -8,7 +8,8 @@ const pool = new Pool({
   host: 'localhost',
   database: 'mock_wishlist',
   password: 'greedy1mock',
-  port: 5432
+  port: 5432,
+  sc: 'jjjjjjjjjjjjjj'
 });
 
 const getItems = (req, res) => {
