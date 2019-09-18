@@ -10,7 +10,8 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('home');
 });
-
+app.get('/register');
+app.post('/register');
 app.get('/items', db.getItems);
 app.post('/items/:id', db.insertItemInWishlist);
 app.get('/:userid', db.getUser);

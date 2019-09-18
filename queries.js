@@ -90,6 +90,7 @@ const deleteItem = (req, res) => {
   );
 };
 module.exports = {
+  pool,
   getItems,
   getItemsById,
   insertItemInWishlist,
