@@ -19,6 +19,7 @@ app.post('/items/:id', db.insertItemInWishlist);
 app.get('/:userid', db.getUser);
 app.get('/:userid/allItems', db.getItemsById);
 app.delete('/:user/:price', db.deleteItem);
+app.get('/');
 
 app.listen(3000, () => {
   console.log('listening on 3000');

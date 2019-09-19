@@ -9,7 +9,7 @@ const createToken = user => {
   return jwt.encode({ subject: user.id, iat: startTime }, pool.sc);
 };
 
-//send token
+//send token to frontend
 const signIn = (req, res) => {
   res.send({ token: createToken(req.user) });
 };
