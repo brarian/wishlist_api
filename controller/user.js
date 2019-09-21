@@ -1,11 +1,12 @@
 const pool = require('../queries');
 exports.createNewUser = (req, res) => {
   //need to salt and hash pw
-  const { name, username, email, password } = req.body;
+
+  const { name, email, password } = req.body;
 
   pool.query(
-    `INSERT INTO userinfo (name, username, email, password) VALUES ($1, $2, $3, $4)`,
-    [name, username, email, password],
+    `INSERT INTO users_pwandfile (name,  email, password) VALUES ($1, $2, $3, )`,
+    [name, email, password],
     (error, results) => {
       if (error) {
         console.log(error);
@@ -17,13 +18,44 @@ exports.createNewUser = (req, res) => {
   );
 };
 
+exports.findUserById = id => {
+  pool.query(
+    `SELECT * FROM users_pwandfile where id =$1`,
+    id,
+    (error, results) => {
+      if (error) {
+        console.log(error);
+        res.send(error);
+      } else {
+        res.json({ results });
+      }
+    }
+  );
+};
+
+exports.verifyUser = email => {
+  pool.query(
+    `SELECT * FROM users_pwandfile where email=$1`,
+    email,
+    (error, results) => {
+      if (error) {
+        console.log(error);
+        res.send(error);
+      } else {
+        res.json({ results });
+      }
+    }
+  );
+};
+
 exports.signIn = (req, res) => {
   //need to salt and hash pw
+  // validations
   const { username, password } = req.body;
 
-  pool.query(
+  return pool.query(
     `SELECT top 1 FROM usersinfo WHERE (name, password) VALUES ($1, $2 )`,
-    [username, password],
+    [username],
     (error, results) => {
       if (error) {
         console.log(error);

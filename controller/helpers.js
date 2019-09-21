@@ -18,5 +18,6 @@ const validatePassword = passwordData => {
       reject('password does not meet the criteria');
     }
     resolve();
+    j;
   });
 };
