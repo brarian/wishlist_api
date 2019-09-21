@@ -1,8 +1,11 @@
 const express = require('express');
 const app = express();
 const db = require('./queries');
+const passport = require('passport');
 const bodyParser = require('body-parser');
+const Authentication = require('./controller/signupAndin');
 const userController = require('./controller/user');
+
 const wishlistController = require('./controller/wishlist');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -11,9 +14,10 @@ app.get('/', (req, res) => {
   res.send('home');
 });
 app.get('/register');
-app.post('/register', userController.createNewUser);
+app.post('/register', Authentication.signUp);
+
 app.get('/signin');
-app.post('/signin', userController.signIn);
+app.post('/signin', Authentication.signIn);
 app.get('/items', db.getItems);
 app.post('/items/:id', db.insertItemInWishlist);
 app.get('/:userid', db.getUser);

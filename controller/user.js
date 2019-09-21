@@ -9,7 +9,7 @@ exports.createNewUser = (req, res) => {
     [name, email, password],
     (error, results) => {
       if (error) {
-        console.log(error);
+        console.log('inside create new user', error);
         res.send(error);
       } else {
         res.redirect('/userHome');
@@ -24,7 +24,7 @@ exports.findUserById = id => {
     id,
     (error, results) => {
       if (error) {
-        console.log(error);
+        console.log('inside find user by id user', error);
         res.send(error);
       } else {
         res.json({ results });
@@ -39,7 +39,7 @@ exports.verifyUser = email => {
     email,
     (error, results) => {
       if (error) {
-        console.log(error);
+        console.log('inside verify user', error);
         res.send(error);
       } else {
         res.json({ results });
@@ -54,8 +54,8 @@ exports.signIn = (req, res) => {
   const { username, password } = req.body;
 
   return pool.query(
-    `SELECT top 1 FROM usersinfo WHERE (name, password) VALUES ($1, $2 )`,
-    [username],
+    `SELECT * FROM users_pwandfile)`,
+    [username, password],
     (error, results) => {
       if (error) {
         console.log(error);
