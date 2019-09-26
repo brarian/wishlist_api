@@ -1,14 +1,10 @@
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 global.fetch = require('node-fetch');
 const aws_config = require('./aws_config');
-const poolData = {
-  UserPoolId: aws_config.USER_POOL_ID,
-  ClientId: aws_config.CLIENT_ID
-};
+
 exports.registerUser = (req, res) => {
   console.log('inside register user');
   res.send('hello');
-  let poolData;
   const name = req.body.name;
   const email = req.body.email;
   console.log(req.body);
@@ -18,7 +14,10 @@ exports.registerUser = (req, res) => {
     password = req.body.password;
   }
 
-  const poolData = aws_config.poolData;
+  const poolData = {
+    UserPoolId: aws_config.USER_POOL_ID,
+    ClientId: aws_config.CLIENT_ID
+  };
 
   let userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 

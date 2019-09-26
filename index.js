@@ -4,7 +4,7 @@ const db = require('./queries');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 // const Authentication = require('./controller/signupAndin');
-const userController = require('./controller/user');
+// const userController = require('./controller/user');
 const cog = require('./mawsindex');
 const wishlistController = require('./controller/wishlist');
 app.use(bodyParser.urlencoded({ extended: true }));
