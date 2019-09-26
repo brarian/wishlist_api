@@ -1,6 +1,10 @@
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 global.fetch = require('node-fetch');
 const aws_config = require('./aws_config');
+const poolData = {
+  UserPoolId: aws_config.USER_POOL_ID,
+  ClientId: aws_config.CLIENT_ID
+};
 exports.registerUser = (req, res) => {
   console.log('inside register user');
   res.send('hello');
@@ -14,10 +18,7 @@ exports.registerUser = (req, res) => {
     password = req.body.password;
   }
 
-  poolData = {
-    UserPoolId: aws_config.USER_POOL_ID,
-    ClientId: aws_config.CLIENT_ID
-  };
+  const poolData = aws_config.poolData;
 
   let userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
@@ -49,5 +50,38 @@ exports.registerUser = (req, res) => {
     CognitoUser = result.user;
     console.log('username is ', CognitoUser.getUsername());
     res.send('check you email for a verification link');
+  });
+};
+
+exports.signIn = (req, res) => {
+  const { email, password } = req.body;
+  console.log('inside signin');
+  const authData = {
+    Username: email,
+    password: password
+  };
+
+  let authDetails = new AmazonCognitoIdentity.AuthenticationDetails(authData);
+
+  const poolData = aws_config.poolData;
+
+  let userPool = new AmazonCognitoIdentity.CognitoUser(poolData);
+
+  const userData = {
+    Username: email,
+    Pool: userPool
+  };
+
+  let CognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+
+  CognitoUser.authenticateUser(authDetails, {
+    onSuccess: function(result) {
+      let accessToken = result.getAccessToken().getJwtToken();
+      console.log(accessToken);
+    },
+    onFailure: function(error) {
+      console.log(error);
+      res.send(error);
+    }
   });
 };
