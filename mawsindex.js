@@ -26,12 +26,12 @@ exports.registerUser = (req, res) => {
 
   let dataName = {
     Name: 'name',
-    Value: req.body.name
+    Value: name
   };
 
   let dataEmail = {
     Name: 'email',
-    Value: req.body.email
+    Value: email
   };
 
   var attributeName = new AmazonCognitoIdentity.CognitoUserAttribute(dataName);
@@ -84,4 +84,10 @@ exports.signIn = (req, res) => {
       res.send(error);
     }
   });
+};
+
+exports.signOut = (req, res) => {
+  if (cognitoUser != null) {
+    cognitoUser.signOut();
+  }
 };
