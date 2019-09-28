@@ -1,6 +1,7 @@
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 global.fetch = require('node-fetch');
 const aws_config = require('./aws_config');
+var jwtDecode = require('jwt-decode');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -64,6 +65,12 @@ exports.registerUser = (req, res) => {
   });
 };
 
+const authorize = function(token) {
+  return validator.validate(token).then(payload => {
+    return { userid: payload.sub };
+  });
+};
+
 exports.signIn = (req, res) => {
   const name = req.body.username;
   const password = req.body.password;
@@ -96,8 +103,9 @@ exports.signIn = (req, res) => {
       var accessToken = result.getAccessToken().getJwtToken();
       /* Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer*/
       var idToken = result.idToken.jwtToken;
+      var decoded = jwtDecode(idToken);
 
-      return res.send('RESULT', result);
+      return res.json({ jwt: decoded });
     },
 
     onFailure: function(error) {
@@ -111,6 +119,10 @@ exports.signOut = (req, res) => {
   if (cognitoUser != null) {
     cognitoUser.signOut();
     return res.json({ success: 'signed out' });
+  } else if (!cognitoUser) {
+    return res.json({ fail: 'no users found' });
+  } else if (error) {
+    console.log(error);
+    return res.send('error');
   }
-  console.log(window.localStorage.getItem('access_token'));
 };

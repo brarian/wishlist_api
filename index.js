@@ -23,7 +23,7 @@ app.post('/items/:id', db.insertItemInWishlist);
 app.get('/:userid', db.getUser);
 app.get('/:userid/allItems', db.getItemsById);
 app.delete('/:user/:price', db.deleteItem);
-app.delete('/signout', auth.signOut);
+app.get('/signout', auth.signOut);
 
 app.listen(8000, (req, res) => {
   console.log('listening on 8000');
